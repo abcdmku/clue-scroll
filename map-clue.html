@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RuneScape Map Clue Scroll</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #2a1810, #1a0f08);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Georgia', serif;
+        }
+
+        .scroll-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.8));
+        }
+
+        .parchment {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #c8a068 0%, #a08050 50%, #b89058 100%);
+            position: relative;
+            clip-path: polygon(
+                3% 2%, 8% 0%, 15% 3%, 25% 1%, 35% 4%, 45% 0%, 55% 3%, 65% 1%, 75% 4%, 85% 0%, 95% 3%, 98% 8%,
+                100% 15%, 97% 25%, 100% 35%, 98% 45%, 100% 55%, 97% 65%, 100% 75%, 98% 85%, 100% 92%, 95% 98%,
+                85% 100%, 75% 97%, 65% 100%, 55% 98%, 45% 100%, 35% 97%, 25% 100%, 15% 98%, 8% 100%, 2% 95%,
+                0% 85%, 3% 75%, 0% 65%, 2% 55%, 0% 45%, 3% 35%, 0% 25%, 2% 15%, 0% 8%
+            );
+            box-shadow: inset 0 0 100px rgba(139, 69, 19, 0.3);
+        }
+
+        .parchment::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 69, 19, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 60% 20%, rgba(101, 67, 33, 0.05) 0%, transparent 30%);
+            mix-blend-mode: multiply;
+        }
+
+        .map-content {
+            position: absolute;
+            inset: 50px;
+            border: 2px solid #8b6914;
+            background: linear-gradient(to bottom, 
+                transparent 0%, 
+                rgba(139, 105, 20, 0.02) 50%, 
+                transparent 100%);
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .building {
+            fill: #6b5843;
+            stroke: #4a3a2a;
+            stroke-width: 2;
+        }
+
+        .building-roof {
+            fill: #8b6043;
+            stroke: #4a3a2a;
+            stroke-width: 2;
+        }
+
+        .road {
+            fill: none;
+            stroke: #7a6a5a;
+            stroke-width: 4;
+            stroke-linecap: round;
+        }
+
+        .path {
+            fill: none;
+            stroke: #8a7060;
+            stroke-width: 2;
+            stroke-dasharray: 5, 3;
+            stroke-linecap: round;
+        }
+
+        .tree {
+            fill: #5a6a3a;
+            stroke: #3a4a2a;
+            stroke-width: 1.5;
+        }
+        
+        circle.tree {
+            fill: none;
+            stroke: #4a5a2a;
+            stroke-width: 2;
+        }
+        
+        .tree-triangle {
+            fill: #5a6a3a;
+            stroke: #3a4a2a;
+            stroke-width: 1.5;
+        }
+
+        .treasure-x {
+            stroke: #c41e3a;
+            stroke-width: 4;
+            stroke-linecap: round;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; stroke-width: 5; }
+        }
+
+        .grass {
+            fill: none;
+            stroke: #6a7a4a;
+            stroke-width: 1;
+            opacity: 0.3;
+        }
+
+        .compass {
+            fill: #8b6914;
+            stroke: #4a3a2a;
+            stroke-width: 1;
+        }
+
+        .title {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #4a3a2a;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(139, 105, 20, 0.3);
+        }
+
+        .hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #5a4a3a;
+            font-size: 14px;
+            font-style: italic;
+            text-align: center;
+            max-width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-container">
+        <div class="parchment">
+            <div class="title">Map Clue</div>
+            <div class="map-content">
+                <svg viewBox="0 0 400 400">
+                    <!-- Main curved road (matches the curved street in the image) -->
+                    <path class="road" d="M 400 150 Q 350 140, 300 160 Q 250 180, 200 200 Q 150 220, 100 250 Q 50 280, 20 320"/>
+                    
+                    <!-- Walkways/driveways -->
+                    <path class="path" d="M 160 100 L 160 160"/>
+                    <path class="path" d="M 240 250 L 200 280"/>
+                    <path class="path" d="M 300 160 L 280 120"/>
+                    
+                    <!-- Left side vertical road/path -->
+                    <path class="road" d="M 20 0 L 20 400" style="stroke-width: 3;"/>
+                    
+                    <!-- Top gray building with complex shape -->
+                    <g id="building1">
+                        <rect class="building" x="120" y="80" width="40" height="35"/>
+                        <rect class="building" x="160" y="75" width="35" height="40"/>
+                        <rect class="building" x="130" y="115" width="50" height="20"/>
+                        <polygon class="building-roof" points="120,80 140,70 160,80 140,90"/>
+                        <polygon class="building-roof" points="160,75 177,65 195,75 177,85"/>
+                    </g>
+                    
+                    <!-- Bottom pink/salmon colored building -->
+                    <g id="building2">
+                        <rect class="building" x="200" y="250" width="45" height="40" style="fill: #9b7060;"/>
+                        <rect class="building" x="245" y="255" width="20" height="35" style="fill: #9b7060;"/>
+                        <polygon class="building-roof" points="200,250 222,235 245,250 222,265" style="fill: #ab8070;"/>
+                    </g>
+                    
+                    <!-- Trees along the left side -->
+                    <polygon class="tree-triangle" points="40,38 32,58 48,58"/>
+                    <polygon class="tree-triangle" points="45,70 38,88 52,88"/>
+                    <polygon class="tree-triangle" points="38,99 30,118 46,118"/>
+                    <polygon class="tree-triangle" points="42,128 33,148 51,148"/>
+                    <polygon class="tree-triangle" points="40,160 33,178 47,178"/>
+                    <polygon class="tree-triangle" points="38,189 30,208 46,208"/>
+                    <polygon class="tree-triangle" points="45,218 36,238 54,238"/>
+                    <polygon class="tree-triangle" points="40,250 33,268 47,268"/>
+                    
+                    <!-- Trees between buildings -->
+                    <polygon class="tree-triangle" points="180,172 174,188 186,188"/>
+                    <polygon class="tree-triangle" points="170,190 162,208 178,208"/>
+                    <polygon class="tree-triangle" points="190,186 183,203 197,203"/>
+                    
+                    <!-- Trees on the right side of curved road -->
+                    <polygon class="tree-triangle" points="320,109 311,129 329,129"/>
+                    <polygon class="tree-triangle" points="340,90 332,108 348,108"/>
+                    <polygon class="tree-triangle" points="360,98 350,118 370,118"/>
+                    
+                    <!-- Trees near bottom building -->
+                    <polygon class="tree-triangle" points="150,270 142,288 158,288"/>
+                    <polygon class="tree-triangle" points="160,291 153,308 167,308"/>
+                    <polygon class="tree-triangle" points="140,299 131,319 149,319"/>
+                    
+                    <!-- Bottom right trees -->
+                    <polygon class="tree-triangle" points="280,290 272,308 288,308"/>
+                    <polygon class="tree-triangle" points="300,299 291,319 309,319"/>
+                    <polygon class="tree-triangle" points="290,321 283,338 297,338"/>
+                    
+                    <!-- Small bushes/grass patches -->
+                    <ellipse class="tree" cx="100" cy="180" rx="6" ry="4" opacity="0.6"/>
+                    <ellipse class="tree" cx="110" cy="190" rx="5" ry="3" opacity="0.6"/>
+                    <ellipse class="tree" cx="220" cy="220" rx="6" ry="4" opacity="0.6"/>
+                    <ellipse class="tree" cx="250" cy="190" rx="5" ry="3" opacity="0.6"/>
+                    
+                    <!-- Grass field markings -->
+                    <path class="grass" d="M 60 350 L 65 345 M 62 355 L 67 350"/>
+                    <path class="grass" d="M 80 360 L 85 355 M 82 365 L 87 360"/>
+                    <path class="grass" d="M 100 340 L 105 335 M 102 345 L 107 340"/>
+                    
+                    <!-- Treasure X mark (between the buildings) -->
+                    <g class="treasure-x">
+                        <line x1="170" y1="160" x2="190" y2="180"/>
+                        <line x1="190" y1="160" x2="170" y2="180"/>
+                    </g>
+                    
+                    <!-- Compass -->
+                    <g transform="translate(350, 350)">
+                        <circle cx="0" cy="0" r="25" fill="none" stroke="#8b6914" stroke-width="2"/>
+                        <path class="compass" d="M 0,-20 L 5,-5 L 0,0 L -5,-5 Z"/>
+                        <text x="0" y="-28" text-anchor="middle" fill="#4a3a2a" font-size="12" font-weight="bold">N</text>
+                    </g>
+                </svg>
+            </div>
+            <div class="hint">Dig where the paths converge near dwellings of stone</div>
+        </div>
+    </div>
+</body>
+</html>
