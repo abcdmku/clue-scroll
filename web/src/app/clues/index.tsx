@@ -13,8 +13,8 @@ import { RuneMatchClue } from './RuneMatchClue';
 
 // Define clue configuration with enabled flag
 export const CLUE_CONFIG = [
-  { component: LivingRoomRiddleClue, name: 'Living Room Riddle', enabled: true, requiresAttempts: false },
   { component: DifficultRiddle5, name: 'Candle Riddle', enabled: true, requiresAttempts: false },
+  { component: LivingRoomRiddleClue, name: 'Living Room Riddle', enabled: true, requiresAttempts: false },
   { component: MapClue, name: 'Map Clue', enabled: true, requiresAttempts: false },
   { component: SliderPuzzleClue, name: 'Slider Puzzle', enabled: true, requiresAttempts: false },
   { component: PuzzleClue, name: 'Character Puzzle', enabled: true, requiresAttempts: true },

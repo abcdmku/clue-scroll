@@ -5,6 +5,8 @@ export function DifficultRiddle5({goToNextClue}: {goToNextClue: () => void}) {
   const [answer, setAnswer] = useState('');
   const [isShaking, setIsShaking] = useState(false);
   const [wrongAttempts, setWrongAttempts] = useState(0);
+  const [showHintPrompt, setShowHintPrompt] = useState(false);
+  const [showHint, setShowHint] = useState(false);
   const validAnswers = ['CANDLE', 'CANDLES', 'WAX'];
   
   const handleSubmit = () => {
@@ -18,7 +20,11 @@ export function DifficultRiddle5({goToNextClue}: {goToNextClue: () => void}) {
     if (validAnswers.includes(normalizedAnswer)) {
       goToNextClue();
     } else {
-      setWrongAttempts(prev => prev + 1);
+      const newAttempts = wrongAttempts + 1;
+      setWrongAttempts(newAttempts);
+      if (newAttempts >= 3 && !showHintPrompt && !showHint) {
+        setShowHintPrompt(true);
+      }
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 600);
     }
@@ -27,10 +33,6 @@ export function DifficultRiddle5({goToNextClue}: {goToNextClue: () => void}) {
   return (
     <ClueScroll>
       <div className="text-center">
-        <p className="text-amber-100 text-sm mb-4 quill-font">
-          The hardest riddle yet:
-        </p>
-        
         <div className="text-amber-200 text-base leading-relaxed mb-6 quill-font">
           I'm tall when I'm young,<br/>
           short when I'm old,<br/>
@@ -39,9 +41,21 @@ export function DifficultRiddle5({goToNextClue}: {goToNextClue: () => void}) {
           My tears run hot, then cool and still.<br/>
         </div>
 
-        {wrongAttempts > 5 && (
+        {showHintPrompt && !showHint && (
+          <button
+            onClick={() => {
+              setShowHintPrompt(false);
+              setShowHint(true);
+            }}
+            className="text-amber-300 text-xs quill-font italic hover:text-amber-200 transition-colors cursor-pointer"
+          >
+            hint?
+          </button>
+        )}
+
+        {showHint && (
           <p className="text-amber-300 text-xs mb-2 quill-font italic">
-            Think of old sources of light...
+            Think birthdays...
           </p>
         )}
 

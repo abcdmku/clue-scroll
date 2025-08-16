@@ -26,16 +26,10 @@ export function LivingRoomRiddleClue({goToNextClue}: {goToNextClue: () => void})
 
   return (
     <ClueScroll>
-      <div className="text-center">
-        <p className="text-amber-100 text-sm mb-4 quill-font">
-          Solve this riddle:
-        </p>
-        
+      <div className="text-center">  
         <div className="text-amber-200 text-lg leading-relaxed mb-6 quill-font">
           I have four legs but never walk,<br/>
-          A back but no spine,<br/>
-          People rest on me to sit and talk,<br/>
-          In living rooms I'm often fine
+          A back but no spine.<br/>
         </div>
 
         {wrongAttempts > 0 && (
