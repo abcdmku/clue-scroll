@@ -4,13 +4,16 @@ import { ClueComponentProps } from './index';
 export function MapClue({}: ClueComponentProps) {
   return (
     <ClueScroll>
-      <div className="relative">
+      <div className="relative" style={{ width: '100%' }}>
         <img 
           src="/clue.png" 
           alt="Map Clue" 
-          className="w-[390px] mx-auto pb-4 ps-3"
+          className="mx-auto"
           style={{ 
-            imageRendering: 'pixelated'
+            imageRendering: 'pixelated',
+            width: '65%',  // 390px / 600px ≈ 65%
+            marginBottom: '5%',
+            marginLeft: '3%'
           }}
         />
       </div>

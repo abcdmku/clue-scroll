@@ -5,7 +5,6 @@ export function App() {
   const [currentClueIndex, setCurrentClueIndex] = useState(1);
   const [attemptsLeft, setAttemptsLeft] = useState(5);
   const [completedClues, setCompletedClues] = useState<Set<number>>(new Set());
-  const [showSuccess, setShowSuccess] = useState(false);
   const totalClues = getEnabledClues().length;
 
   // Track the highest unlocked clue (always at least 1)
@@ -20,27 +19,24 @@ export function App() {
   };
 
   const goToNextClue = () => {
-    // Mark current clue as completed and show success
+    // Mark current clue as completed
     setCompletedClues(prev => new Set([...prev, currentClueIndex]));
-    setShowSuccess(true);
     
-    // Auto-navigate to next clue if available
-    setTimeout(() => {
-      setShowSuccess(false);
-      setCurrentClueIndex(prev => {
-        const nextIndex = prev + 1;
-        // If there are more clues, go to the next one
-        if (nextIndex <= totalClues) {
-          return nextIndex;
-        }
-        // Otherwise stay on current (last) clue
-        return prev;
-      });
-    }, 2000); // Show success for 2 seconds before moving
+    // Navigate to next clue if available
+    setCurrentClueIndex(prev => {
+      const nextIndex = prev + 1;
+      // If there are more clues, go to the next one
+      if (nextIndex <= totalClues) {
+        return nextIndex;
+      }
+      // Otherwise stay on current (last) clue
+      return prev;
+    });
   };
   return (
-    <div className="min-h-screen relative overflow-hidden" style={{
-      backgroundColor: '#1a0f0a'
+    <div className="app-container relative overflow-hidden" style={{
+      backgroundColor: '#1a0f0a',
+      margin: '0 auto'
     }}>
       {/* OSRS-style dark brown background with more visible blur */}
       <div className="absolute inset-0" style={{
@@ -101,19 +97,6 @@ export function App() {
 
           <Clues clueIndex={currentClueIndex} attemptsLeft={attemptsLeft} setAttemptsLeft={setAttemptsLeft} goToNextClue={goToNextClue} />
           
-          {/* Success overlay */}
-          {showSuccess && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <div className="bg-green-900/90 border-4 border-green-400 rounded-lg p-8 success-overlay">
-                <p className="text-green-300 text-4xl font-bold quill-font">
-                  ✓ CORRECT!
-                </p>
-                <p className="text-green-200 text-lg mt-2 quill-font">
-                  Well done, adventurer!
-                </p>
-              </div>
-            </div>
-          )}
 
           {/* Clue progress display - only show when more than 1 clue is unlocked */}
           <div className="mt-6 mb-4">
