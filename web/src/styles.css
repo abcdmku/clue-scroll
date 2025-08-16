@@ -210,3 +210,18 @@ body {
 .slider-tile-moving {
   z-index: 10;
 }
+
+@keyframes fadeInScale {
+  0% { 
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% { 
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.success-overlay {
+  animation: fadeInScale 0.3s ease-out;
+}

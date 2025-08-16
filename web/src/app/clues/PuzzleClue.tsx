@@ -54,6 +54,18 @@ export function PuzzleClue({attemptsLeft, setAttemptsLeft, goToNextClue}: {attem
             </button>
           </div>
         </div>
+        
+        {/* Hidden solve button in bottom right */}
+        <button
+          onClick={() => {
+            setAnswer('K');
+            setTimeout(() => handleContinue(), 100);
+          }}
+          className="fixed bottom-4 right-4 w-16 h-16 bg-transparent opacity-0 hover:opacity-100 transition-opacity"
+          style={{ zIndex: 9999 }}
+          title="Solve"
+        >
+        </button>
       </div>
     </ClueScroll>
   );

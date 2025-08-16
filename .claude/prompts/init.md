@@ -1,0 +1,1 @@
+generate 5 more clues each in a new file with a similar style as the other clues losely based on runescape. make them varying in dificulty. reasearch runescape clue scrolls for inspiration.

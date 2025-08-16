@@ -1,0 +1,330 @@
+{
+  "graph": {
+    "nodes": {
+      "server": {
+        "name": "server",
+        "type": "app",
+        "data": {
+          "root": "server",
+          "name": "server",
+          "$schema": "../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "server/src",
+          "projectType": "application",
+          "tags": [],
+          "targets": {
+            "build": {
+              "executor": "@nx/esbuild:esbuild",
+              "outputs": [
+                "{options.outputPath}"
+              ],
+              "defaultConfiguration": "production",
+              "options": {
+                "platform": "node",
+                "outputPath": "dist/server",
+                "format": [
+                  "cjs"
+                ],
+                "bundle": false,
+                "main": "server/src/main.ts",
+                "tsConfig": "server/tsconfig.app.json",
+                "assets": [
+                  "server/src/assets"
+                ],
+                "generatePackageJson": true,
+                "esbuildOptions": {
+                  "sourcemap": true,
+                  "outExtension": {
+                    ".js": ".js"
+                  }
+                }
+              },
+              "configurations": {
+                "development": {},
+                "production": {
+                  "esbuildOptions": {
+                    "sourcemap": false,
+                    "outExtension": {
+                      ".js": ".js"
+                    }
+                  }
+                }
+              },
+              "parallelism": true,
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production"
+              ]
+            },
+            "prune-lockfile": {
+              "dependsOn": [
+                "build"
+              ],
+              "cache": true,
+              "executor": "@nx/js:prune-lockfile",
+              "outputs": [
+                "{workspaceRoot}/dist/server/package.json",
+                "{workspaceRoot}/dist/server/package-lock.json"
+              ],
+              "options": {
+                "buildTarget": "build"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "copy-workspace-modules": {
+              "dependsOn": [
+                "build"
+              ],
+              "cache": true,
+              "outputs": [
+                "{workspaceRoot}/dist/server/workspace_modules"
+              ],
+              "executor": "@nx/js:copy-workspace-modules",
+              "options": {
+                "buildTarget": "build"
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "prune": {
+              "dependsOn": [
+                "prune-lockfile",
+                "copy-workspace-modules"
+              ],
+              "executor": "nx:noop",
+              "configurations": {},
+              "options": {},
+              "parallelism": true
+            },
+            "serve": {
+              "continuous": true,
+              "executor": "@nx/js:node",
+              "defaultConfiguration": "development",
+              "dependsOn": [
+                "build"
+              ],
+              "options": {
+                "buildTarget": "server:build",
+                "runBuildTargetDependencies": false
+              },
+              "configurations": {
+                "development": {
+                  "buildTarget": "server:build:development"
+                },
+                "production": {
+                  "buildTarget": "server:build:production"
+                }
+              },
+              "parallelism": true
+            }
+          },
+          "implicitDependencies": []
+        }
+      },
+      "web": {
+        "name": "web",
+        "type": "app",
+        "data": {
+          "root": "web",
+          "projectType": "application",
+          "metadata": {},
+          "targets": {
+            "build": {
+              "options": {
+                "cwd": "web",
+                "command": "vite build"
+              },
+              "cache": true,
+              "dependsOn": [
+                "^build"
+              ],
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "vite"
+                  ]
+                }
+              ],
+              "outputs": [
+                "{workspaceRoot}\\dist\\web"
+              ],
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Run Vite build",
+                "help": {
+                  "command": "npx vite build --help",
+                  "example": {
+                    "options": {
+                      "sourcemap": true,
+                      "manifest": "manifest.json"
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "serve": {
+              "continuous": true,
+              "options": {
+                "cwd": "web",
+                "command": "vite"
+              },
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Starts Vite dev server",
+                "help": {
+                  "command": "npx vite --help",
+                  "example": {
+                    "options": {
+                      "port": 3000
+                    }
+                  }
+                },
+                "deprecated": "Use devTargetName instead. This option will be removed in Nx 22."
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "dev": {
+              "continuous": true,
+              "options": {
+                "cwd": "web",
+                "command": "vite"
+              },
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Starts Vite dev server",
+                "help": {
+                  "command": "npx vite --help",
+                  "example": {
+                    "options": {
+                      "port": 3000
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "preview": {
+              "continuous": true,
+              "dependsOn": [
+                "build"
+              ],
+              "options": {
+                "cwd": "web",
+                "command": "vite preview"
+              },
+              "metadata": {
+                "technologies": [
+                  "vite"
+                ],
+                "description": "Locally preview Vite production build",
+                "help": {
+                  "command": "npx vite preview --help",
+                  "example": {
+                    "options": {
+                      "port": 3000
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "serve-static": {
+              "continuous": true,
+              "executor": "@nx/web:file-server",
+              "options": {
+                "buildTarget": "build",
+                "spa": true
+              },
+              "configurations": {},
+              "parallelism": true
+            },
+            "typecheck": {
+              "cache": true,
+              "inputs": [
+                "production",
+                "^production",
+                {
+                  "externalDependencies": [
+                    "typescript"
+                  ]
+                }
+              ],
+              "options": {
+                "cwd": "web",
+                "command": "tsc --noEmit -p tsconfig.app.json"
+              },
+              "metadata": {
+                "description": "Runs type-checking for the project.",
+                "technologies": [
+                  "typescript"
+                ],
+                "help": {
+                  "command": "npx tsc -p tsconfig.app.json --help",
+                  "example": {
+                    "options": {
+                      "noEmit": true
+                    }
+                  }
+                }
+              },
+              "executor": "nx:run-commands",
+              "configurations": {},
+              "parallelism": true
+            },
+            "build-deps": {
+              "dependsOn": [
+                "^build"
+              ],
+              "configurations": {},
+              "options": {},
+              "parallelism": true,
+              "executor": "nx:noop"
+            },
+            "watch-deps": {
+              "continuous": true,
+              "dependsOn": [
+                "build-deps"
+              ],
+              "executor": "nx:run-commands",
+              "options": {
+                "command": "npx nx watch --projects web --includeDependentProjects -- npx nx build-deps web"
+              },
+              "configurations": {},
+              "parallelism": true
+            }
+          },
+          "name": "web",
+          "$schema": "../node_modules/nx/schemas/project-schema.json",
+          "sourceRoot": "web/src",
+          "tags": [],
+          "implicitDependencies": []
+        }
+      }
+    },
+    "dependencies": {
+      "server": [],
+      "web": []
+    }
+  }
+}

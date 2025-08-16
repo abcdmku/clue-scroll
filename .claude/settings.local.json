@@ -55,7 +55,8 @@
       "Bash(npx nx g:*)",
       "Bash(npx nx run:*)",
       "Bash(npx nx serve:*)",
-      "Bash(cp:*)"
+      "Bash(cp:*)",
+      "Bash(npm run:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
