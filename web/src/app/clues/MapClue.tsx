@@ -1,6 +1,7 @@
 import { ClueScroll } from '../ClueScroll';
+import { ClueComponentProps } from './index';
 
-export function MapClue() {
+export function MapClue({}: ClueComponentProps) {
   return (
     <ClueScroll>
       <div className="relative">

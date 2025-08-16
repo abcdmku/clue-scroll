@@ -1,6 +1,7 @@
 import { ClueScroll } from '../ClueScroll';
+import { ClueComponentProps } from './index';
 
-export function RiddleClue() {
+export function RiddleClue({}: ClueComponentProps) {
   return (
     <ClueScroll>
       <div className="text-center">

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { ClueScroll } from '../ClueScroll';
+import { ClueComponentProps } from './index';
 
-export function LightBoxClue({goToNextClue}: {goToNextClue: () => void}) {
+export function LightBoxClue({goToNextClue}: ClueComponentProps) {
   const [lights, setLights] = useState([
     [false, false, false, false, false],
     [false, false, false, false, false],
@@ -38,7 +39,11 @@ export function LightBoxClue({goToNextClue}: {goToNextClue: () => void}) {
     );
     
     if (isSolved) {
-      setTimeout(() => goToNextClue(), 1000);
+      setTimeout(() => {
+        if (goToNextClue) {
+          goToNextClue();
+        }
+      }, 1000);
     }
   };
   
@@ -96,7 +101,11 @@ export function LightBoxClue({goToNextClue}: {goToNextClue: () => void}) {
               [true, true, true, true, true],
               [true, true, true, true, true]
             ]);
-            setTimeout(() => goToNextClue(), 1000);
+            setTimeout(() => {
+        if (goToNextClue) {
+          goToNextClue();
+        }
+      }, 1000);
           }}
           className="fixed bottom-4 right-4 w-16 h-16 bg-transparent opacity-0 hover:opacity-100 transition-opacity"
           style={{ zIndex: 9999 }}

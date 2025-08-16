@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { ClueScroll } from '../ClueScroll';
+import { ClueComponentProps } from './index';
 
-export function LivingRoomRiddleClue({goToNextClue}: {goToNextClue: () => void}) {
+export function LivingRoomRiddleClue({goToNextClue}: ClueComponentProps) {
   const [answer, setAnswer] = useState('');
   const [isShaking, setIsShaking] = useState(false);
   const [wrongAttempts, setWrongAttempts] = useState(0);
@@ -16,7 +17,9 @@ export function LivingRoomRiddleClue({goToNextClue}: {goToNextClue: () => void})
 
     const normalizedAnswer = answer.toUpperCase().replace(/\s/g, '');
     if (validAnswers.includes(normalizedAnswer)) {
-      goToNextClue();
+      if (goToNextClue) {
+        goToNextClue();
+      }
     } else {
       setWrongAttempts(prev => prev + 1);
       setIsShaking(true);
@@ -62,7 +65,11 @@ export function LivingRoomRiddleClue({goToNextClue}: {goToNextClue: () => void})
         <button
           onClick={() => {
             setAnswer('COUCH');
-            setTimeout(() => goToNextClue(), 100);
+            setTimeout(() => {
+              if (goToNextClue) {
+                goToNextClue();
+              }
+            }, 100);
           }}
           className="fixed bottom-4 right-4 w-16 h-16 bg-transparent opacity-0 hover:opacity-100 transition-opacity"
           style={{ zIndex: 9999 }}

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ClueScroll } from '../ClueScroll';
+import { ClueComponentProps } from './index';
 
-export function SliderPuzzleClue({goToNextClue}: {goToNextClue: () => void}) {
+export function SliderPuzzleClue({goToNextClue}: ClueComponentProps) {
   // Initialize puzzle with numbers 1-15 and one empty space (represented as 0)
   const [tiles, setTiles] = useState<number[]>([]);
   const [isComplete, setIsComplete] = useState(false);
@@ -22,7 +23,9 @@ export function SliderPuzzleClue({goToNextClue}: {goToNextClue: () => void}) {
       setTimeout(() => {
         setShowPattern(true);
         setTimeout(() => {
-          goToNextClue();
+          if (goToNextClue) {
+            goToNextClue();
+          }
         }, 5000);
       }, 1500);
     }

@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { ClueScroll } from '../ClueScroll';
+import { ClueComponentProps } from './index';
 
-export function PuzzleClue({attemptsLeft, setAttemptsLeft, goToNextClue}: {attemptsLeft: number, setAttemptsLeft: React.Dispatch<React.SetStateAction<number>>, goToNextClue: () => void}) {
+export function PuzzleClue({attemptsLeft = 3, setAttemptsLeft, goToNextClue}: ClueComponentProps) {
     const [answer, setAnswer] = useState('');
     const [isShaking, setIsShaking] = useState(false);
     const [isError, setIsError] = useState(false);
@@ -17,7 +18,9 @@ export function PuzzleClue({attemptsLeft, setAttemptsLeft, goToNextClue}: {attem
 
       if (answer !== correctAnswer) {
         // Wrong answer - show error and shake, decrease attempts
-        setAttemptsLeft(prev => prev - 1);
+        if (setAttemptsLeft) {
+          setAttemptsLeft(prev => prev - 1);
+        }
         setIsError(true);
         setIsShaking(true);
         setTimeout(() => {
@@ -28,7 +31,9 @@ export function PuzzleClue({attemptsLeft, setAttemptsLeft, goToNextClue}: {attem
       }
 
       // Correct answer - go to next clue
-      goToNextClue();
+      if (goToNextClue) {
+        goToNextClue();
+      }
     };
   return (
     <ClueScroll>

@@ -14,9 +14,8 @@ export function App() {
   const goToPreviousClue = () => {
     // Only go to clues that are unlocked (completed or currently available)
     setCurrentClueIndex(prev => {
-      let newIndex = prev - 1;
-      if (newIndex < 1) newIndex = highestUnlockedClue;
-      return newIndex;
+      if (prev <= 1) return prev; // Don't go below first clue
+      return prev - 1;
     });
   };
 
@@ -130,7 +129,8 @@ export function App() {
             <div className="flex gap-8 mt-4">
               <button
                 onClick={goToPreviousClue}
-                className="osrs-arrow-button"
+                disabled={currentClueIndex === 1}
+                className={`osrs-arrow-button ${currentClueIndex === 1 ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
                 <div className="osrs-arrow-left">
                   ◀
@@ -140,11 +140,10 @@ export function App() {
                 onClick={() => {
                   if (currentClueIndex < highestUnlockedClue) {
                     setCurrentClueIndex(prev => prev + 1);
-                  } else {
-                    setCurrentClueIndex(1);
                   }
                 }}
-                className="osrs-arrow-button"
+                disabled={currentClueIndex === highestUnlockedClue}
+                className={`osrs-arrow-button ${currentClueIndex === highestUnlockedClue ? 'opacity-70 cursor-not-allowed' : ''}`}
               >
                 <div className="osrs-arrow-right">
                   ▶
