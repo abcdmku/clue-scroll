@@ -192,7 +192,7 @@ export function SliderPuzzleClue({goToNextClue}: {goToNextClue: () => void}) {
                 style={{
                   fontFamily: 'Quill, serif',
                   imageRendering: 'crisp-edges',
-                  background: block === 'L' ? 'linear-gradient(135deg, #5A5A5A 0%, #6C6C6C 20%, #808080 50%, #6C6C6C 80%, #5A5A5A 100%)' : undefined,
+                  background: block === 'L' ? 'linear-gradient(135deg, #7A7A7A 0%, #8C8C8C 20%, #A0A0A0 50%, #8C8C8C 80%, #7A7A7A 100%)' : undefined,
                   border: block === 'L' ? '3px solid' : undefined,
                   borderColor: block === 'L' ? '#808080 #2A2A2A #2A2A2A #909090' : undefined,
                   boxShadow: block === 'L' ? 'inset 2px 2px 0 rgba(70, 70, 70, 0.2), inset -2px -2px 0 rgba(0, 0, 0, 0.4)' : undefined
@@ -218,7 +218,7 @@ export function SliderPuzzleClue({goToNextClue}: {goToNextClue: () => void}) {
                 style={{
                   fontFamily: 'Quill, serif',
                   imageRendering: 'crisp-edges',
-                  background: tile !== 0 ? 'linear-gradient(135deg, #5A5A5A 0%, #6C6C6C 20%, #808080 50%, #6C6C6C 80%, #5A5A5A 100%)' : undefined,
+                  background: tile !== 0 ? 'linear-gradient(135deg, #7A7A7A 0%, #8C8C8C 20%, #A0A0A0 50%, #8C8C8C 80%, #7A7A7A 100%)' : undefined,
                   border: tile !== 0 ? '3px solid' : undefined,
                   borderColor: tile !== 0 ? '#808080 #2A2A2A #2A2A2A #909090' : undefined,
                   boxShadow: tile !== 0 ? 'inset 2px 2px 0 rgba(70, 70, 70, 0.2), inset -2px -2px 0 rgba(0, 0, 0, 0.4)' : undefined,
