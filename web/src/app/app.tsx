@@ -1,6 +1,18 @@
 import Clues from './clues';
+import { useState } from 'react';
 
 export function App() {
+  const [currentClueIndex, setCurrentClueIndex] = useState(3);
+  const [attemptsLeft, setAttemptsLeft] = useState(5);
+  const totalClues = 4;
+
+  const goToPreviousClue = () => {
+    setCurrentClueIndex(prev => prev > 1 ? prev - 1 : totalClues);
+  };
+
+  const goToNextClue = () => {
+    setCurrentClueIndex(prev => prev < totalClues ? prev + 1 : 1);
+  };
   return (
     <div className="min-h-screen relative overflow-hidden" style={{
       backgroundColor: '#1a0f0a'
@@ -62,7 +74,34 @@ export function App() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex items-center justify-center min-h-screen">
         <div className="flex flex-col items-center justify-center">
 
-          <Clues clueIndex={3} />
+          <Clues clueIndex={currentClueIndex} attemptsLeft={attemptsLeft} setAttemptsLeft={setAttemptsLeft} goToNextClue={goToNextClue} />
+
+          {/* Clue number display */}
+          <div className="mt-6 mb-4">
+            <span className="quill-font text-2xl">
+              Clue {currentClueIndex} of {totalClues}
+            </span>
+          </div>
+
+          {/* Navigation arrows */}
+          <div className="flex gap-8 mt-4">
+            <button
+              onClick={goToPreviousClue}
+              className="osrs-arrow-button"
+            >
+              <div className="osrs-arrow-left">
+                ◀
+              </div>
+            </button>
+            <button
+              onClick={goToNextClue}
+              className="osrs-arrow-button"
+            >
+              <div className="osrs-arrow-right">
+                ▶
+              </div>
+            </button>
+          </div>
 
         </div>
       </main>

@@ -7,7 +7,10 @@ export function MapClue() {
         <img 
           src="/clue.png" 
           alt="Map Clue" 
-          className="w-[390px] mx-auto pb-4 ps-3  "
+          className="w-[390px] mx-auto pb-4 ps-3"
+          style={{ 
+            imageRendering: 'pixelated'
+          }}
         />
       </div>
     </ClueScroll>
