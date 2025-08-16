@@ -3,11 +3,6 @@ import { ReactNode } from "react";
 export function ClueScroll({children}: {children: ReactNode}) {
   return (
     <div className="clue-scroll-container relative inline-block">
-      {/* Dark green moving blurs */}
-      <div className="dark-green-blur dark-green-blur-1"></div>
-      <div className="dark-green-blur dark-green-blur-2"></div>
-      <div className="dark-green-blur dark-green-blur-3"></div>
-      
       {/* Use the actual blank clue image */}
       <img 
         src="/blankclue.png" 
