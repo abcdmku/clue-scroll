@@ -50,7 +50,12 @@
       "Bash(claude mcp add:*)",
       "WebFetch(domain:tanstack.com)",
       "Bash(npx @tanstack/router-cli:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "Bash(npx create-nx-workspace:*)",
+      "Bash(npx nx g:*)",
+      "Bash(npx nx run:*)",
+      "Bash(npx nx serve:*)",
+      "Bash(cp:*)"
     ],
     "deny": [],
     "defaultMode": "acceptEdits"
