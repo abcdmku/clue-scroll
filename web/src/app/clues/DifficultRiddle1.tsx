@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { ClueScroll } from '../ClueScroll';
+import { ClueComponentProps } from './index';
 
-export function DifficultRiddle1({goToNextClue}: {goToNextClue: () => void}) {
+export function DifficultRiddle1({goToNextClue}: ClueComponentProps) {
   const [answer, setAnswer] = useState('');
   const [isShaking, setIsShaking] = useState(false);
   const [wrongAttempts, setWrongAttempts] = useState(0);
@@ -16,7 +17,9 @@ export function DifficultRiddle1({goToNextClue}: {goToNextClue: () => void}) {
 
     const normalizedAnswer = answer.toUpperCase().replace(/\s/g, '');
     if (validAnswers.includes(normalizedAnswer)) {
-      goToNextClue();
+      if (goToNextClue) {
+        goToNextClue();
+      }
     } else {
       setWrongAttempts(prev => prev + 1);
       setIsShaking(true);

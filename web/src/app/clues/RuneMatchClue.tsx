@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { ClueScroll } from '../ClueScroll';
+import { ClueComponentProps } from './index';
 
-export function RuneMatchClue({goToNextClue}: {goToNextClue: () => void}) {
+export function RuneMatchClue({goToNextClue}: ClueComponentProps) {
   const runes = ['🔥', '💧', '🌍', '💨', '⚡', '🌙'];
   const [sequence, setSequence] = useState<string[]>([]);
   const [playerInput, setPlayerInput] = useState<string[]>([]);
@@ -48,7 +49,11 @@ export function RuneMatchClue({goToNextClue}: {goToNextClue: () => void}) {
     // Check if complete
     if (newInput.length === sequence.length) {
       if (round === 3) {
-        setTimeout(() => goToNextClue(), 1000);
+        setTimeout(() => {
+          if (goToNextClue) {
+            goToNextClue();
+          }
+        }, 1000);
       } else {
         setRound(round + 1);
       }

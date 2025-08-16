@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { ClueScroll } from '../ClueScroll';
+import { ClueComponentProps } from './index';
 
-export function CipherWheelClue({goToNextClue}: {goToNextClue: () => void}) {
+export function CipherWheelClue({goToNextClue}: ClueComponentProps) {
   const [shift, setShift] = useState(0);
   const [answer, setAnswer] = useState('');
   const [isShaking, setIsShaking] = useState(false);
@@ -25,7 +26,9 @@ export function CipherWheelClue({goToNextClue}: {goToNextClue: () => void}) {
   
   const handleSubmit = () => {
     if (shift === correctShift || answer.toUpperCase().replace(/\s/g, '') === correctAnswer) {
-      goToNextClue();
+      if (goToNextClue) {
+        goToNextClue();
+      }
     } else {
       setIsShaking(true);
       setTimeout(() => setIsShaking(false), 600);

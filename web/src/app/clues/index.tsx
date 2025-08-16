@@ -24,11 +24,19 @@ export interface ClueComponentProps {
 type ClueComponent = React.ComponentType<ClueComponentProps>;
 
 // Interface for clue configuration
-interface ClueConfigItem {
+export interface ClueConfigItem {
   component: ClueComponent;
   name: string;
   enabled: boolean;
   requiresAttempts: boolean;
+}
+
+// Interface for Clues component props
+export interface CluesProps {
+  clueIndex: number;
+  attemptsLeft: number;
+  setAttemptsLeft: React.Dispatch<React.SetStateAction<number>>;
+  goToNextClue: () => void;
 }
 
 // Define clue configuration with enabled flag
@@ -40,17 +48,17 @@ export const CLUE_CONFIG: ClueConfigItem[] = [
   { component: PuzzleClue, name: 'Character Puzzle', enabled: true, requiresAttempts: true },
   { component: LightBoxClue, name: 'Light Box Puzzle', enabled: true, requiresAttempts: false },
   { component: RiddleClue, name: 'Simple Riddle', enabled: true, requiresAttempts: false },
-//  { component: KitchenAnagramClue, name: 'Kitchen Anagram', enabled: true, requiresAttempts: false },
-//  { component: DifficultRiddle1, name: 'Clock Riddle', enabled: true, requiresAttempts: false },
-//  { component: CipherWheelClue, name: 'Cipher Wheel', enabled: true, requiresAttempts: false },
-//  { component: CoordinateGridClue, name: 'Coordinate Grid', enabled: true, requiresAttempts: false },
-//  { component: RuneMatchClue, name: 'Rune Memory Match', enabled: true, requiresAttempts: false },
+  { component: KitchenAnagramClue, name: 'Kitchen Anagram', enabled: true, requiresAttempts: false },
+  { component: DifficultRiddle1, name: 'Clock Riddle', enabled: true, requiresAttempts: false },
+  { component: CipherWheelClue, name: 'Cipher Wheel', enabled: true, requiresAttempts: false },
+  { component: CoordinateGridClue, name: 'Coordinate Grid', enabled: true, requiresAttempts: false },
+  { component: RuneMatchClue, name: 'Rune Memory Match', enabled: true, requiresAttempts: false },
 ];
 
 // Get only enabled clues
 export const getEnabledClues = () => CLUE_CONFIG.filter(clue => clue.enabled);
 
-export const Clues = ({clueIndex, attemptsLeft, setAttemptsLeft, goToNextClue}: {clueIndex: number, attemptsLeft: number, setAttemptsLeft: React.Dispatch<React.SetStateAction<number>>, goToNextClue: () => void}) => {
+export const Clues: React.FC<CluesProps> = ({clueIndex, attemptsLeft, setAttemptsLeft, goToNextClue}) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [completedClueName, setCompletedClueName] = useState('');
   const [showSolveButton, setShowSolveButton] = useState(false);

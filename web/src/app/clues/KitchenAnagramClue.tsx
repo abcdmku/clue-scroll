@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { ClueScroll } from '../ClueScroll';
+import { ClueComponentProps } from './index';
 
-export function KitchenAnagramClue({goToNextClue}: {goToNextClue: () => void}) {
+export function KitchenAnagramClue({goToNextClue}: ClueComponentProps) {
   const [answer, setAnswer] = useState('');
   const [isShaking, setIsShaking] = useState(false);
   const [wrongAttempts, setWrongAttempts] = useState(0);
@@ -15,7 +16,9 @@ export function KitchenAnagramClue({goToNextClue}: {goToNextClue: () => void}) {
     }
 
     if (answer.toUpperCase().replace(/\s/g, '') === correctAnswer) {
-      goToNextClue();
+      if (goToNextClue) {
+        goToNextClue();
+      }
     } else {
       setWrongAttempts(prev => prev + 1);
       setIsShaking(true);

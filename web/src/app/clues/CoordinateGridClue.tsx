@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { ClueScroll } from '../ClueScroll';
+import { ClueComponentProps } from './index';
 
-export function CoordinateGridClue({goToNextClue}: {goToNextClue: () => void}) {
+export function CoordinateGridClue({goToNextClue}: ClueComponentProps) {
   const [selectedSquare, setSelectedSquare] = useState<{x: number, y: number} | null>(null);
   const [isShaking, setIsShaking] = useState(false);
   const [attempts, setAttempts] = useState(0);
@@ -14,7 +15,11 @@ export function CoordinateGridClue({goToNextClue}: {goToNextClue: () => void}) {
     setSelectedSquare({x, y});
     
     if (x === targetX && y === targetY) {
-      setTimeout(() => goToNextClue(), 500);
+      setTimeout(() => {
+        if (goToNextClue) {
+          goToNextClue();
+        }
+      }, 500);
     } else {
       setAttempts(prev => prev + 1);
       setIsShaking(true);
